@@ -28,7 +28,7 @@ export default function AppLayout() {
 
   return (
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <TabLayout /> {/* Solo renderiza el TabLayout aquí */}
+      <TabLayout /> 
       <StatusBar style="auto" />
     </ThemeProvider>
   );

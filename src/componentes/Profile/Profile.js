@@ -1,19 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Image, ScrollView } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
-import { auth } from '../../../firebase'; // Asegúrate de tener la configuración de Firebase
+import { auth } from '../../../firebase'; //configuración de Firebase
 import bagIcon from '../../../assets/images/bag.png';
 import accountIcon from '../../../assets/images/account.png';
 import homeIcon from '../../../assets/images/home.png';
 
 const Profile = ({ navigation }) => {
-  // Estado para almacenar el email del usuario
+  // email del usuario
   const [email, setEmail] = useState('');
 
-  // Efecto para obtener los datos del usuario cuando el componente se monta
+  
   useEffect(() => {
     if (auth.currentUser) {
-      setEmail(auth.currentUser.email); // Asignar el email del usuario
+      setEmail(auth.currentUser.email); // Asigna el email del usuario
     }
   }, []);
 
@@ -27,7 +27,7 @@ const Profile = ({ navigation }) => {
         <Text style={styles.username}>{auth.currentUser ? auth.currentUser.displayName : 'Usuario'}</Text>
         <Text style={styles.level}>Nivel: 3</Text>
 
-        {/* Mostrar el correo electrónico del usuario */}
+       
         <Text style={styles.email}>{email}</Text>
 
         <View style={styles.optionsContainer}>

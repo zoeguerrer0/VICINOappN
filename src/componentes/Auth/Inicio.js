@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, ImageBackground, Text, View, TouchableOpacity } from 'react-native';
-import fondoInicio from '../../../assets/images/fondo-inicio.png'; // Imagen importada correctamente
+import fondoInicio from '../../../assets/images/fondo-inicio.png'; 
 
 export default function Inicio({ navigation }) {
   return (
@@ -29,7 +29,7 @@ export default function Inicio({ navigation }) {
 const styles = StyleSheet.create({
   background: {
     flex: 1,
-    resizeMode: 'cover', // Asegúrate de que la imagen se ajuste correctamente
+    resizeMode: 'cover', 
   },
   container: {
     flex: 1,
