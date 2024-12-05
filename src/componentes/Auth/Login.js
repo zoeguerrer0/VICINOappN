@@ -4,7 +4,7 @@ import { auth } from '../../../firebase';
 import { signInWithEmailAndPassword } from 'firebase/auth'; //con este se verifica el email
 
 export default function Login({ navigation }) {
-  const [email, setEmail] = useState(''); 
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
   const handleLogin = async () => {

@@ -1,15 +1,21 @@
-import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Image, ScrollView} from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { View, Text, StyleSheet, TouchableOpacity, Image, ScrollView } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
+import { auth } from '../../../firebase'; // Asegúrate de tener la configuración de Firebase
 import bagIcon from '../../../assets/images/bag.png';
 import accountIcon from '../../../assets/images/account.png';
 import homeIcon from '../../../assets/images/home.png';
 
-
 const Profile = ({ navigation }) => {
+  // Estado para almacenar el email del usuario
+  const [email, setEmail] = useState('');
 
-
-
+  // Efecto para obtener los datos del usuario cuando el componente se monta
+  useEffect(() => {
+    if (auth.currentUser) {
+      setEmail(auth.currentUser.email); // Asignar el email del usuario
+    }
+  }, []);
 
   return (
     <View style={styles.container}>
@@ -17,30 +23,33 @@ const Profile = ({ navigation }) => {
         <Icon name="chevron-back-outline" size={24} color="#FFFFFF" />
       </TouchableOpacity>
       <ScrollView>
-      <Text style={styles.title}>VICINO</Text>
-      <Text style={styles.username}>Alejandra Maldonado</Text>
-      <Text style={styles.level}>Nivel: 3</Text>
+        <Text style={styles.title}>VICINO</Text>
+        <Text style={styles.username}>{auth.currentUser ? auth.currentUser.displayName : 'Usuario'}</Text>
+        <Text style={styles.level}>Nivel: 3</Text>
 
-      <View style={styles.optionsContainer}>
-        <TouchableOpacity style={styles.option}>
-          <Text style={styles.optionText}>Mi cuenta</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.option}>
-          <Text style={styles.optionText}>Correo</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.option}>
-          <Text style={styles.optionText}>Direcciones</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.option}>
-          <Text style={styles.optionText}>Seguridad</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.option}>
-          <Text style={styles.optionText}>Mis compras</Text>
-        </TouchableOpacity>
-      </View>
-	  </ScrollView>
+        {/* Mostrar el correo electrónico del usuario */}
+        <Text style={styles.email}>{email}</Text>
+
+        <View style={styles.optionsContainer}>
+          <TouchableOpacity style={styles.option}>
+            <Text style={styles.optionText}>Mi cuenta</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.option}>
+            <Text style={styles.optionText}>Correo: {email}</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.option}>
+            <Text style={styles.optionText}>Direcciones</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.option}>
+            <Text style={styles.optionText}>Seguridad</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.option}>
+            <Text style={styles.optionText}>Mis compras</Text>
+          </TouchableOpacity>
+        </View>
+      </ScrollView>
       <View style={styles.navBar}>
-	  <TouchableOpacity style={styles.navButton} onPress={() => navigation.navigate('Shop')}>
+        <TouchableOpacity style={styles.navButton} onPress={() => navigation.navigate('Shop')}>
           <Image source={bagIcon} style={styles.icon} />
         </TouchableOpacity>
         <TouchableOpacity style={styles.navButton} onPress={() => navigation.navigate('Inicio')}>
@@ -60,8 +69,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#e2caad',
     paddingHorizontal: 20,
     paddingTop: 110,
-    paddingBottom:210,
-
+    paddingBottom: 210,
   },
   backButton: {
     position: 'absolute',
@@ -87,6 +95,12 @@ const styles = StyleSheet.create({
     color: '#FFFFFF',
     marginBottom: 30,
   },
+  email: {
+    fontSize: 16,
+    textAlign: 'center',
+    color: '#FFFFFF',
+    marginBottom: 20,
+  },
   optionsContainer: {
     flex: 1,
   },
@@ -94,7 +108,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: '#FFFFFF',
     paddingVertical: 15,
-    marginBottom:10,
+    marginBottom: 10,
   },
   optionText: {
     fontSize: 18,
@@ -106,7 +120,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#6F4E37',
     paddingVertical: 10,
-    position : 'absolute', // Fija la navbar
+    position: 'absolute', // Fija la navbar
     bottom: 85, // Mantiene la navbar 20 unidades hacia arriba
     left: 0,
     right: 0,
@@ -121,4 +135,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Profile;
+export default Profile;
