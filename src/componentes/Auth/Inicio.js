@@ -40,14 +40,14 @@ const styles = StyleSheet.create({
     backgroundColor: '#6F4E37',
     padding: 10,
     paddingHorizontal: 30,
-    borderRadius: 5,
+    borderRadius: 90,
     marginVertical: 10,
     width: '80%',
     alignItems: 'center',
   },
   buttonText: {
     color: '#FFF',
-    fontSize: 16,
+    fontSize: 20,
   },
   text: {
     color: '#000000', // Texto principal en color negro

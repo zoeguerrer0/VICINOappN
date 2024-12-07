@@ -1,44 +1,33 @@
-import { Tabs } from 'expo-router';
-import React from 'react';
-import { Platform } from 'react-native';
+import 'react-native-gesture-handler';
 
-import { HapticTab } from '@/components/HapticTab';
-import { IconSymbol } from '@/components/ui/IconSymbol';
-import TabBarBackground from '@/components/ui/TabBarBackground';
-import { Colors } from '@/constants/Colors';
-import { useColorScheme } from '@/hooks/useColorScheme';
 
-export default function TabLayout() {
-  const colorScheme = useColorScheme();
+import { createStackNavigator } from '@react-navigation/stack';
+import Inicio from '../../src/componentes/Auth/Inicio';
+import Login from '../../src/componentes/Auth/Login';
+import Register from '../../src/componentes/Auth/Register';
+import Shop from '../../src/componentes/Shop/Shop';
+import Profile from '../../src/componentes/Profile/Profile';
+import ProductDetail from '@/src/componentes/Products/ProductDetail'
+import Products from '@/src/componentes/Products/Products';
+import Envio from '../../src/componentes/Compra/Envio';
+import ModalComponent from '../../src/componentes/ModalComponent/ModalComponent';
 
+
+const Stack = createStackNavigator();
+
+
+export default function App() {
   return (
-    <Tabs
-      screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
-        headerShown: false,
-        tabBarButton: HapticTab,
-        tabBarBackground: TabBarBackground,
-        tabBarStyle: Platform.select({
-          ios: {
-            position: 'absolute',
-          },
-          default: {},
-        }),
-      }}>
-      <Tabs.Screen
-        name="index"
-        options={{
-          title: 'Home',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="house.fill" color={color} />,
-        }}
-      />
-      <Tabs.Screen
-        name="explore"
-        options={{
-          title: 'Explore',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="paperplane.fill" color={color} />,
-        }}
-      />
-    </Tabs>
+      <Stack.Navigator initialRouteName="Inicio">
+        <Stack.Screen name="Inicio" component={Inicio}/>
+		<Stack.Screen name="Login" component={Login}/>
+        <Stack.Screen name="Register" component={Register}/>
+        <Stack.Screen name="Shop" component={Shop}/>
+        <Stack.Screen name="Profile" component={Profile}/>
+		<Stack.Screen name="Products" component={Products}/>
+		<Stack.Screen name="ProductDetail" component={ProductDetail}/>
+		<Stack.Screen name="Envio" component={Envio}/>
+		<Stack.Screen name="ModalComponent" component={ModalComponent}/>
+      </Stack.Navigator>
   );
 }

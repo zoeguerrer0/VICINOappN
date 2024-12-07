@@ -1,74 +1,89 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, TextInput, StyleSheet, TouchableOpacity, ImageBackground } from 'react-native';
 import { auth } from '../../../firebase';
-import { signInWithEmailAndPassword } from 'firebase/auth'; //con este se verifica el email
+import { signInWithEmailAndPassword } from 'firebase/auth';
+import fondoInicio from '../../../assets/images/fondo-inicio.png';
 
 export default function Login({ navigation }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [isFocused, setIsFocused] = useState(false);
+  const [showPassword, setShowPassword] = useState(false); // Estado para mostrar u ocultar la contraseña
 
   const handleLogin = async () => {
     try {
-      //RECOLECTOR de errores
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
-      
       const user = userCredential.user;
       console.log('Usuario logueado:', user);
-      navigation.navigate('Shop'); 
+      navigation.navigate('Shop');
     } catch (error) {
       console.error('Error de inicio de sesión:', error.code, error.message);
-     
       alert('Error al iniciar sesión: ' + error.message);
     }
   };
 
   const handleBack = () => {
-    navigation.goBack(); //Devuelve a la pantalla anterior
+    navigation.goBack();
   };
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.texto}>VICINO</Text>
+    <ImageBackground source={fondoInicio} style={styles.background}>
+      <View style={styles.container}>
+        <Text style={styles.texto}>VICINO</Text>
 
-      <Text style={styles.icon}>👤</Text>
-      <TextInput
-        style={styles.input}
-        placeholder="Email"
-        value={email}
-        onChangeText={setEmail}
-        keyboardType="email-address"
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Contraseña"
-        value={password}
-        onChangeText={setPassword}
-        secureTextEntry
-      />
-      <View style={styles.buttonContainer}>
-        <TouchableOpacity style={styles.button} onPress={handleBack}>
-          <Text style={styles.buttonText}>Atrás</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.button} onPress={handleLogin}>
-          <Text style={styles.buttonText}>Continuar</Text>
-        </TouchableOpacity>
+        <Text style={styles.icon}>👤</Text>
+        <TextInput
+          style={[styles.input, isFocused && styles.inputFocused]}
+          placeholder="Email"
+          value={email}
+          onChangeText={setEmail}
+          keyboardType="email-address"
+          onFocus={() => setIsFocused(true)}
+          onBlur={() => setIsFocused(false)}
+        />
+        <View style={styles.passwordContainer}>
+          <TextInput
+            style={[styles.input, styles.passwordInput]}
+            placeholder="Contraseña"
+            value={password}
+            onChangeText={setPassword}
+            secureTextEntry={!showPassword} // Cambia según el estado
+          />
+          <TouchableOpacity
+            onPress={() => setShowPassword((prev) => !prev)}
+            style={styles.iconButton}>
+            <Text style={styles.iconToggle}>
+              {showPassword ? '🙈' : '👁️'} {/* Cambia el icono según el estado */}
+            </Text>
+          </TouchableOpacity>
+        </View>
+        <View style={styles.buttonContainer}>
+          <TouchableOpacity style={styles.button} onPress={handleBack}>
+            <Text style={styles.buttonText}>Atrás</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.button} onPress={handleLogin}>
+            <Text style={styles.buttonText}>Continuar</Text>
+          </TouchableOpacity>
+        </View>
       </View>
-    </View>
+    </ImageBackground>
   );
 }
 
 const styles = StyleSheet.create({
+  background: {
+    flex: 1,
+    resizeMode: 'cover',
+  },
   container: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#e2caad',
   },
   texto: {
-    fontSize: 32,
-    marginBottom: 20,
-    color: '#73482f',
-    fontWeight: 'bold',
+    color: '#000',
+    fontSize: 30,
+    letterSpacing: 4,
   },
   icon: {
     fontSize: 50,
@@ -81,6 +96,27 @@ const styles = StyleSheet.create({
     marginVertical: 10,
     backgroundColor: '#73482f',
     borderRadius: 100,
+    color: '#fff',
+  },
+  inputFocused: {
+    borderColor: '#007BFF',
+    borderWidth: 2,
+  },
+  passwordContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    width: '80%',
+    marginVertical: 10,
+  },
+  passwordInput: {
+    flex: 1,
+  },
+  iconButton: {
+    position: 'absolute',
+    marginLeft: '88%',
+  },
+  iconToggle: {
+    fontSize: 20,
     color: '#fff',
   },
   buttonContainer: {
