@@ -5,7 +5,7 @@ import {  DataProvider } from '../Context/DataContext';
 import bagIcon from '../../../assets/images/bag.png';
 import accountIcon from '../../../assets/images/account.png';
 import homeIcon from '../../../assets/images/home.png';
-import ModalComponent from '../ModalComponent/ModalComponent'; // Asegúrate de importar ModalComponent
+import ModalComponent from '../ModalComponent/ModalComponent';
 
 
 const Shop = ({navigation}) => {
@@ -41,8 +41,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#6F4E37',
     paddingVertical: 10,
-    position : 'absolute', // Fija la navbar
-    bottom: 85, // Mantiene la navbar 85 unidades hacia arriba
+    position : 'absolute', 
+    bottom: 85, 
     left: 0,
     right: 0,
     borderRadius: 50,
@@ -51,7 +51,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
 }, 
 icon: {
-  width: 50, // Ajusta el tamaño del ícono según sea necesario
+  width: 50, 
   height: 50,
 },
 });
