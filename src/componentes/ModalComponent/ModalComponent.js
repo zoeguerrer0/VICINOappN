@@ -1,90 +1,97 @@
-import React, { useState, useContext } from "react";
-import { Modal, StyleSheet, Text, Pressable, View, FlatList , Image} from "react-native";
-import { DataContext } from "../Context/DataContext";
-import bagIcon from '../../../assets/images/bag.png';
-import addIcon from '../../../assets/images/add.png';
-import closeIcon from '../../../assets/images/close.png';
-import closewIcon from '../../../assets/images/closew.png';
-import minusIcon from '../../../assets/images/remove.png';
-
-const handleAddToCart = (item) => {
-	alert('Producto agregado al carrito');
-	handleBuyPress(item);
-  };
+import React, { useContext, useState, useEffect } from "react";
+import { Modal, StyleSheet, Text, Pressable, View, FlatList, Image } from "react-native";
+import { DataContext } from "../Context/DataContext"; // Asegúrate de importar el contexto correctamente
+import bagIcon from "../../../assets/images/bag.png";
+import addIcon from "../../../assets/images/add.png";
+import closeIcon from "../../../assets/images/close.png";
+import minusIcon from "../../../assets/images/remove.png";
 
 const ModalComponent = () => {
-  const { cart, setCart, buyProducts } = useContext(DataContext);
+  const { cart, setCart, saveCartToFirestore, userId } = useContext(DataContext); // Accedemos al contexto
   const [modalVisible, setModalVisible] = useState(false);
 
-  //total
-  const total = cart.reduce((acc, el) => acc + el.quanty * el.price, 0);
+  // Guardar el carrito en Firestore cuando el cart cambie y si hay un userId
+  useEffect(() => {
+    if (userId && cart.length > 0) {
+      const saveCart = async () => {
+        try {
+          await saveCartToFirestore(userId, cart);
+          console.log('Carrito guardado en Firestore');
+        } catch (error) {
+          console.error('Error al guardar el carrito:', error);
+        }
+      };
 
-  //increase
-  const handleBuyPress = (product) => {
-    buyProducts(product);
+      saveCart(); // Guardar carrito en Firestore
+    }
+  }, [cart]);
+
+  const total = cart.reduce((acc, item) => acc + item.quantity * item.price, 0);
+
+  const handleIncrease = (product) => {
+    setCart((prevCart) => {
+      const updatedCart = prevCart.map((item) =>
+        item.id === product.id ? { ...item, quantity: item.quantity + 1 } : item
+      );
+      return updatedCart;
+    });
   };
 
-  //drecrease
-  const handleDreasePress = (product) => {
-    const productRepeat = cart.find((item) => item.id === product.id);
-
-    productRepeat.quanty !== 1 &&
-      setCart(cart.map((item) => (item.id === product.id ? { ...product, quanty: productRepeat.quanty - 1 } : item)));
+  const handleDecrease = (product) => {
+    setCart((prevCart) => {
+      const updatedCart = prevCart.map((item) =>
+        item.id === product.id && item.quantity > 1
+          ? { ...item, quantity: item.quantity - 1 }
+          : item
+      );
+      return updatedCart;
+    });
   };
 
-  //delete
-  const handleDeletePress = (product) => {
-    setCart(cart.filter((item) => item.id !== product.id));
+  const handleDelete = (product) => {
+    setCart((prevCart) => prevCart.filter((item) => item.id !== product.id));
   };
 
   return (
     <View>
       <Pressable style={styles.modalButton} onPress={() => setModalVisible(true)}>
-	  <Image source={bagIcon} style={styles.cartIcon} />
+        <Image source={bagIcon} style={styles.cartIcon} />
       </Pressable>
+
       <Modal
-        animationType='slide'
+        animationType="slide"
         transparent={true}
         visible={modalVisible}
-        onRequestClose={() => {
-          setModalVisible(!modalVisible);
-        }}>
+        onRequestClose={() => setModalVisible(false)}
+      >
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
-            <Pressable style={[styles.button]} onPress={() => setModalVisible(!modalVisible)}>
-			<Image source={closewIcon} style={styles.buttonClose} />
+            <Pressable style={styles.button} onPress={() => setModalVisible(false)}>
+              <Image source={closeIcon} style={styles.buttonClose} />
             </Pressable>
-            <Text style={styles.modalText}>Cart Items:</Text>
+            <Text style={styles.modalText}>Productos en el carrito:</Text>
             <FlatList
               data={cart}
               renderItem={({ item }) => (
                 <View style={styles.cartItem}>
-                  <Text style={styles.modalTextProduct}>{item.productName}</Text>
-
-                  <Text style={styles.modalTextProduct}>
-                    <Pressable onPress={() => handleDreasePress(item)}>
-					<Image source={minusIcon} style={styles.carritoIcons} />
+                  <Text>{item.productName}</Text>
+                  <View style={styles.quantityControls}>
+                    <Pressable onPress={() => handleDecrease(item)}>
+                      <Image source={minusIcon} style={styles.carritoIcons} />
                     </Pressable>
-
-                    <Text style={styles.modalTextProduct}>{item.quanty}</Text>
-
-                    <Pressable onPress={() => handleBuyPress(item)}>
-					<Image source={addIcon} style={styles.carritoIcons} />
+                    <Text>{item.quantity}</Text>
+                    <Pressable onPress={() => handleIncrease(item)}>
+                      <Image source={addIcon} style={styles.carritoIcons} />
                     </Pressable>
-                  </Text>
-
-                  <Text style={styles.modalTextProduct}>
-                    Total: ${item.quanty * item.price}
-                    <Pressable onPress={() => handleDeletePress(item)}>
-					<Image source={closeIcon} style={styles.carritoIcons} />
-                    </Pressable>
-                  </Text>
+                  </View>
+                  <Pressable onPress={() => handleDelete(item)}>
+                    <Image source={closeIcon} style={styles.carritoIcons} />
+                  </Pressable>
                 </View>
               )}
-              keyExtractor={(item) => item.id}
+              keyExtractor={(item) => item.id.toString()}
             />
-            <Text style={styles.totalText}>Total: ${total}</Text>
-
+            <Text>Total: ${total}</Text>
           </View>
         </View>
       </Modal>
@@ -97,7 +104,6 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "flex-end",
     alignItems: "center",
-    marginTop: 22,
   },
   modalView: {
     backgroundColor: "white",
@@ -106,83 +112,54 @@ const styles = StyleSheet.create({
     padding: 35,
     alignItems: "center",
     shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
+    shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.25,
     shadowRadius: 4,
     elevation: 5,
     width: "100%",
   },
   button: {
-    borderRadius: 20,
-    padding: 10,
-    elevation: 2,
-    left: 120,
+    position: "absolute",
+    top: 10,
+    right: 10,
   },
   buttonClose: {
-    backgroundColor: "#d9c2a7",
-	fontSize: 20,
-	width: 40,
-	height:40,
-	margin: 5,
-	borderRadius: 10,
-	padding: 1,
-  },
-  textStyle: {
-    fontWeight: "bold",
-    textAlign: "center",
-  },
-  modalText: {
-    marginBottom: 15,
-    fontSize: 22,
-    fontWeight: "bold",
+    width: 30,
+    height: 30,
   },
   modalButton: {
     position: "absolute",
-    bottom: 665,
-    left: 310,
+    bottom: 20,
+    right: 20,
     padding: 10,
     borderRadius: 30,
-	zIndex: 1000, 
+    backgroundColor: "#fff",
+    elevation: 5,
   },
   cartIcon: {
-    fontSize: 20,
-	width: 40,
-	height:40,
+    width: 40,
+    height: 40,
   },
-  carritoIcons:{
-	fontSize: 20,
-	width: 30,
-	height:30,
-	margin: 5,
-	marginHorizontal: 10,
-	backgroundColor: "#d9c2a7",
-	borderRadius: 30,
-	padding: 2,
+  carritoIcons: {
+    width: 30,
+    height: 30,
+    marginHorizontal: 5,
   },
   cartItem: {
-    marginBottom: 10,
-  justifyContent: 'center',
-  alignItems: 'center',
-  marginVertical: 5, 
+    marginBottom: 15,
+    alignItems: "center",
   },
-  modalTextProduct: {
-    marginBottom: 1,
-    fontSize: 24,
-    fontWeight: "bold",
-    textAlign: "center",
-	paddingleft:3,
-	paddingRight:3,
-
-  },
-  totalText: {
-    marginTop: 10,
+  modalText: {
     fontSize: 18,
     fontWeight: "bold",
+    marginBottom: 10,
+  },
+  quantityControls: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    marginVertical: 10,
   },
 });
 
 export default ModalComponent;
-export { handleAddToCart };
