@@ -1,7 +1,7 @@
 import React, { useContext, useState, useEffect } from "react";
 import { Modal, StyleSheet, Text, Pressable, View, FlatList, Image } from "react-native";
 import { DataContext } from "../Context/DataContext"; // Asegúrate de importar el contexto correctamente
-import bagIcon from "../../../assets/images/bag.png";
+import carrito from "../../../assets/images/carrito.jpg";
 import addIcon from "../../../assets/images/add.png";
 import closeIcon from "../../../assets/images/close.png";
 import minusIcon from "../../../assets/images/remove.png";
@@ -12,7 +12,7 @@ const ModalComponent = () => {
 
   // Guardar el carrito en Firestore cuando el cart cambie y si hay un userId
   useEffect(() => {
-    if (userId && cart.length > 0) {
+    if (userId) {
       const saveCart = async () => {
         try {
           await saveCartToFirestore(userId, cart);
@@ -55,7 +55,7 @@ const ModalComponent = () => {
   return (
     <View>
       <Pressable style={styles.modalButton} onPress={() => setModalVisible(true)}>
-        <Image source={bagIcon} style={styles.cartIcon} />
+        <Image source={carrito} style={styles.cartIcon} />
       </Pressable>
 
       <Modal
