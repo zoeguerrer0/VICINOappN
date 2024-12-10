@@ -1,11 +1,11 @@
 import React, { useContext } from 'react';
-import { DataContext } from "../Context/DataContext"; // Ensure this path is correct
+import { DataContext } from "../Context/DataContext"; 
 import { Pressable, View, FlatList, Text, Image, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
 const Products = () => {
   const navigation = useNavigation();
-  const { buyProducts } = useContext(DataContext); // This is where you're getting the function
+  const { buyProducts } = useContext(DataContext);
 
   const productos = [
     {
@@ -32,7 +32,7 @@ const Products = () => {
         description: "Descripción del producto 3",
         details: "Detalles del producto 3",
       },
-    // Agrega más productos aquí
+    
   ];
 
   const handleBuyPress = (product) => {
@@ -75,7 +75,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingTop: 80,
-    paddingBottom: 150,
+    paddingBottom: 0,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#d9c2a7',

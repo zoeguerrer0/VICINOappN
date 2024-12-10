@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 0,
-    paddingBottom: Platform.OS === 'ios' ? 100 : 80, // Ajuste para diferentes plataformas
+    paddingBottom: Platform.OS === 'ios' ? 100 : 80,
   },
   navBar: {
     flexDirection: 'row',
@@ -42,21 +42,21 @@ const styles = StyleSheet.create({
     backgroundColor: '#6F4E37',
     paddingVertical: 35,
     position: 'absolute', 
-    bottom: 0,  // Asegura que esté en la parte inferior
+    bottom: 0,  
     left: 0,
     right: 0,
-    borderTopLeftRadius: 30,  // Solo redondea las esquinas superiores
+    borderTopLeftRadius: 30,  
     borderTopRightRadius: 30, 
-    paddingBottom: Platform.OS === 'ios' ? 20 : 10, // Ajustes para iOS vs Android
-    zIndex: 10,  // Asegura que el tab esté sobre otros elementos
+    paddingBottom: Platform.OS === 'ios' ? 20 : 10,
+    zIndex: 10, 
   },
   navButton: {
     alignItems: 'center',
   }, 
   icon: {
-    width: 45, // Puedes usar tamaños más pequeños si deseas
+    width: 45, 
     height: 45,
-    resizeMode: 'contain', // Asegura que la imagen se ajuste sin deformarse
+    resizeMode: 'contain', 
   },
 });
 

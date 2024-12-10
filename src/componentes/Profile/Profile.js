@@ -7,13 +7,13 @@ import accountIcon from '../../../assets/images/account.png';
 import homeIcon from '../../../assets/images/home.png';
 
 const Profile = ({ navigation }) => {
-  // email del usuario
+  
   const [email, setEmail] = useState('');
 
   
   useEffect(() => {
     if (auth.currentUser) {
-      setEmail(auth.currentUser.email); // Asigna el email del usuario
+      setEmail(auth.currentUser.email);
     }
   }, []);
 
@@ -120,22 +120,22 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#6F4E37',
     paddingVertical: 28,
-    position: 'absolute', // Fija la navbar
-    bottom: 0, // Asegura que el tab esté en la parte inferior
+    position: 'absolute', 
+    bottom: 0, 
     left: 0,
     right: 0,
-    borderTopLeftRadius: 30,  // Solo redondea las esquinas superiores
-    borderTopRightRadius: 30, // Solo redondea las esquinas superiores
+    borderTopLeftRadius: 30,  
+    borderTopRightRadius: 30, 
     paddingBottom: 20,
-    zIndex: 10,  // Asegura que el tab esté por encima de otros elementos
+    zIndex: 10, 
   },
   navButton: {
     alignItems: 'center',
   },
   icon: {
-    width: 45, // Ajusta el tamaño del ícono según sea necesario
+    width: 45, 
     height: 45,
-    resizeMode: 'contain', // Asegura que la imagen se ajuste sin deformarse
+    resizeMode: 'contain', 
   },
 });
 export default Profile;

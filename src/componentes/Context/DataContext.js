@@ -1,7 +1,7 @@
 import React, { createContext, useState, useEffect } from "react";
 import { getAuth } from "firebase/auth";
-import { firestore } from "../../../firebase"; // Ya está correctamente importado
-import { doc, setDoc, getDoc } from "firebase/firestore"; // Importar métodos para trabajar con documentos de Firestore
+import { firestore } from "../../../firebase"; 
+import { doc, setDoc, getDoc } from "firebase/firestore"; 
 
 export const DataContext = createContext();
 
@@ -9,20 +9,19 @@ export const DataProvider = ({ children }) => {
   const [cart, setCart] = useState([]);
   const [userId, setUserId] = useState(null);
 
-  // Obtener el userId del usuario autenticado
+  
   useEffect(() => {
     const auth = getAuth();
     const user = auth.currentUser;
 
     if (user) {
-      setUserId(user.uid); // Guardamos el userId en el estado
+      setUserId(user.uid); 
     }
   }, []);
 
-  // Función para guardar el carrito en Firestore
   const saveCartToFirestore = async (userId, cart) => {
     try {
-      const cartRef = doc(firestore, "carts", userId); // Usamos doc en lugar de collection
+      const cartRef = doc(firestore, "carts", userId); 
       await setDoc(cartRef, { cart });
       console.log("Carrito guardado en Firestore");
     } catch (error) {
@@ -30,10 +29,10 @@ export const DataProvider = ({ children }) => {
     }
   };
 
-  // Función para cargar el carrito desde Firestore
+ 
   const loadCartFromFirestore = async (userId) => {
     try {
-      const cartRef = doc(firestore, "carts", userId); // Usamos doc en lugar de collection
+      const cartRef = doc(firestore, "carts", userId); 
       const docSnap = await getDoc(cartRef);
       if (docSnap.exists()) {
         setCart(docSnap.data().cart);
@@ -46,12 +45,12 @@ export const DataProvider = ({ children }) => {
     }
   };
 
-  // Función para agregar un producto al carrito
+ 
   const buyProducts = (product) => {
     setCart((prevCart) => {
       const updatedCart = [...prevCart, product];
       if (userId) {
-        saveCartToFirestore(userId, updatedCart); // Guardamos el carrito en Firestore si existe el userId
+        saveCartToFirestore(userId, updatedCart); 
       }
       return updatedCart;
     });
@@ -65,8 +64,8 @@ export const DataProvider = ({ children }) => {
         setCart,
         saveCartToFirestore,
         loadCartFromFirestore,
-        buyProducts, // Proporcionamos la función buyProducts
-        userId, // Proporcionamos el userId
+        buyProducts, 
+        userId, 
       }}
     >
       {children}
