@@ -32,7 +32,7 @@ const Shop = ({navigation}) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 10,
+    padding: 0,
     paddingBottom: Platform.OS === 'ios' ? 100 : 80, // Ajuste para diferentes plataformas
   },
   navBar: {
@@ -40,13 +40,13 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
     alignItems: 'center',
     backgroundColor: '#6F4E37',
-    paddingVertical: 10,
+    paddingVertical: 35,
     position: 'absolute', 
     bottom: 0,  // Asegura que esté en la parte inferior
     left: 0,
     right: 0,
-    borderTopLeftRadius: 20,  // Solo redondea las esquinas superiores
-    borderTopRightRadius: 20, 
+    borderTopLeftRadius: 30,  // Solo redondea las esquinas superiores
+    borderTopRightRadius: 30, 
     paddingBottom: Platform.OS === 'ios' ? 20 : 10, // Ajustes para iOS vs Android
     zIndex: 10,  // Asegura que el tab esté sobre otros elementos
   },
@@ -54,8 +54,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   }, 
   icon: {
-    width: 40, // Puedes usar tamaños más pequeños si deseas
-    height: 40,
+    width: 45, // Puedes usar tamaños más pequeños si deseas
+    height: 45,
     resizeMode: 'contain', // Asegura que la imagen se ajuste sin deformarse
   },
 });

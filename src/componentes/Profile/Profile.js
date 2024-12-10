@@ -119,20 +119,23 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
     alignItems: 'center',
     backgroundColor: '#6F4E37',
-    paddingVertical: 10,
+    paddingVertical: 28,
     position: 'absolute', // Fija la navbar
-    bottom: 85, // Mantiene la navbar 20 unidades hacia arriba
+    bottom: 0, // Asegura que el tab esté en la parte inferior
     left: 0,
     right: 0,
-    borderRadius: 50,
+    borderTopLeftRadius: 30,  // Solo redondea las esquinas superiores
+    borderTopRightRadius: 30, // Solo redondea las esquinas superiores
+    paddingBottom: 20,
+    zIndex: 10,  // Asegura que el tab esté por encima de otros elementos
   },
   navButton: {
     alignItems: 'center',
   },
   icon: {
-    width: 50, // Ajusta el tamaño del ícono según sea necesario
-    height: 50,
+    width: 45, // Ajusta el tamaño del ícono según sea necesario
+    height: 45,
+    resizeMode: 'contain', // Asegura que la imagen se ajuste sin deformarse
   },
 });
-
 export default Profile;
