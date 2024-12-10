@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { StyleSheet, ImageBackground, Text, View, TextInput, TouchableOpacity, Alert } from 'react-native';
-import fondoInicio from '../../../assets/images/fondo-inicio.png';
+import registro from '../../../assets/images/registro.jpg';
 import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth'; 
 
 export default function Register({ navigation }) {
@@ -37,7 +37,7 @@ export default function Register({ navigation }) {
 
   return (
     <ImageBackground
-      source={fondoInicio}
+      source={registro}
       style={styles.background}
     >
       <View style={styles.container}>

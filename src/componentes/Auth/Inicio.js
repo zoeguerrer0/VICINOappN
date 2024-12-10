@@ -1,11 +1,11 @@
 import React from 'react';
 import { StyleSheet, ImageBackground, Text, View, TouchableOpacity } from 'react-native';
-import fondoInicio from '../../../assets/images/fondo-inicio.png'; 
+import login from '../../../assets/images/login.jpg'; 
 
 export default function Inicio({ navigation }) {
   return (
     <ImageBackground
-      source={fondoInicio} 
+      source={login} 
       style={styles.background}
     >
       <View style={styles.container}>

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, TextInput, StyleSheet, TouchableOpacity, ImageBackground } from 'react-native';
 import { auth } from '../../../firebase';
 import { signInWithEmailAndPassword } from 'firebase/auth';
-import fondoInicio from '../../../assets/images/fondo-inicio.png';
+import inicio from '../../../assets/images/inicio.jpg';
 
 export default function Login({ navigation }) {
   const [email, setEmail] = useState('');
@@ -27,7 +27,7 @@ export default function Login({ navigation }) {
   };
 
   return (
-    <ImageBackground source={fondoInicio} style={styles.background}>
+    <ImageBackground source={inicio} style={styles.background}>
       <View style={styles.container}>
         <Text style={styles.texto}>VICINO</Text>
 
